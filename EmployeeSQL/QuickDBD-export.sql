@@ -1,0 +1,72 @@
+﻿-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
+-- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
+
+
+CREATE TABLE DEPARTMENT (
+    dept_no VARCHAR(5)   NOT NULL,
+    dept_name VARCHAR(25)   NOT NULL,
+    CONSTRAINT pk_DEPARTMENT PRIMARY KEY (
+        dept_no
+     )
+);
+
+CREATE TABLE EMPLOYEE_STRUCTURE (
+    emp_no INT   NOT NULL,
+    dept_no VARCHAR(30)   NOT NULL,
+    CONSTRAINT pk_EMPLOYEE_STRUCTURE PRIMARY KEY (
+        emp_no
+     )
+);
+
+CREATE TABLE MANAGER_STRUCTURE (
+    dept_no VARCHAR(5)   NOT NULL,
+    emp_no INT   NOT NULL,
+    CONSTRAINT pk_MANAGER_STRUCTURE PRIMARY KEY (
+        dept_no
+     )
+);
+
+CREATE TABLE EMPLOYEE_DETAIL (
+    emp_no INT   NOT NULL,
+    emp_title_id VARCHAR(5)   NOT NULL,
+    birth_date DATE   NOT NULL,
+    first_name VARCHAR(30)   NOT NULL,
+    last_name VARCHAR(30)   NOT NULL,
+    sex VARCHAR(1)   NOT NULL,
+    hire_date DATE   NOT NULL,
+    CONSTRAINT pk_EMPLOYEE_DETAIL PRIMARY KEY (
+        emp_no
+     )
+);
+
+CREATE TABLE SALARY (
+    emp_no INT   NOT NULL,
+    salary INT   NOT NULL,
+    CONSTRAINT pk_SALARY PRIMARY KEY (
+        emp_no
+     )
+);
+
+CREATE TABLE ORG_STRUCTURE (
+    title_id VARCHAR(5)   NOT NULL,
+    title VARCHAR(30)   NOT NULL,
+    CONSTRAINT pk_ORG_STRUCTURE PRIMARY KEY (
+        title_id
+     )
+);
+
+ALTER TABLE EMPLOYEE_STRUCTURE ADD CONSTRAINT fk_EMPLOYEE_STRUCTURE_emp_no FOREIGN KEY(emp_no)
+REFERENCES SALARY (emp_no);
+
+ALTER TABLE EMPLOYEE_STRUCTURE ADD CONSTRAINT fk_EMPLOYEE_STRUCTURE_dept_no FOREIGN KEY(dept_no)
+REFERENCES DEPARTMENT (dept_no);
+
+ALTER TABLE MANAGER_STRUCTURE ADD CONSTRAINT fk_MANAGER_STRUCTURE_dept_no FOREIGN KEY(dept_no)
+REFERENCES DEPARTMENT (dept_no);
+
+ALTER TABLE EMPLOYEE_DETAIL ADD CONSTRAINT fk_EMPLOYEE_DETAIL_emp_no FOREIGN KEY(emp_no)
+REFERENCES EMPLOYEE_STRUCTURE (emp_no);
+
+ALTER TABLE EMPLOYEE_DETAIL ADD CONSTRAINT fk_EMPLOYEE_DETAIL_emp_title_id FOREIGN KEY(emp_title_id)
+REFERENCES ORG_STRUCTURE (title_id);
+
